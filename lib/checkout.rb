@@ -6,15 +6,23 @@ class Checkout
     steps.each{|s| add s }
   end
 
-  def current
-    @steps.reject{|s| s.completed == true}.min_by(&:sequence)
+  def previous
+    steps.find{|s| s.sequence == current_step.sequence-1}
   end
 
-  def complete_current
-    current.complete
+  def next
+    steps.find{|s| s.sequence == current_step.sequence+1}
+  end
+
+  def current
+    current_step
   end
 
   private
+
+  def current_step
+    @steps.reject{|s| s.completed == true}.min_by(&:sequence)
+  end
 
   def add(step)
     step.sequence = @steps.size

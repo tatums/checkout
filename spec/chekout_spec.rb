@@ -18,8 +18,22 @@ describe Checkout do
     @checkout.steps.size.should == 3
   end
 
-  it "return current step" do
+  it "should return current step" do
     @checkout.current.should be_an_instance_of(ShippingStep)
+  end
+
+  it "should return the next step" do
+    @checkout.next.should be_an_instance_of(BillingStep)
+    @checkout.current.complete
+    @checkout.next.should be_an_instance_of(ConfirmationStep)
+    @checkout.current.complete
+    @checkout.next.should be nil
+  end
+
+  it "should return nil when checking for the previous step" do
+    @checkout.previous.should be nil
+    @checkout.current.complete
+    @checkout.previous.should be_an_instance_of(ShippingStep)
   end
 
   it "should be able to complete a step" do
@@ -36,6 +50,7 @@ describe Checkout do
   it "current step should have a completed variable" do
     @checkout.current.should respond_to :completed
   end
+
 end
 
 describe ShippingStep do
