@@ -2,7 +2,6 @@
 This is an attempt to modularize an ecommerce checkout into steps.
 
 =Setup the checkout object
-
 @checkout = Checkout.new(ShippingStep.new, BillingStep.new, ConfirmationStep.new)
 
 This will add 3 steps to checkout.
@@ -11,6 +10,9 @@ Put the steps in the correct order. Checkout.new(1st, 2nd, 3rd)
 =Get the current step.
 Call @checkout.current
 
+=Get the next or previous step.
+Call @checkout.next or @checkout.previous
+
 =Complete the current step.
-Call @checkout.complete_current
+Call @checkout.current.complete
 
